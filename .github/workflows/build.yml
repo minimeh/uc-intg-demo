@@ -36,8 +36,20 @@ jobs:
         #Id needed for env output variable
         id: get-version-and-id
         run: |
-          # Extract version from git tag (remove 'v' prefix)
-          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "tag=###"${GITHUB_REF#refs/tags/v}"###"
+          echo "input=###"${{github.event.inputs.version}}"###"
+          # Check if triggered by version tag
+          if [[ -z "${{github.event.inputs.version}}" ]]; then
+          # if [-n "${{github.event.inputs.version}}" ]; then
+            # Extract version from git tag (remove 'v' prefix)
+            echo "tag-triggered"
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            # Retrieve version from manual input
+            echo "manually-triggered"
+            VERSION=${{github.event.inputs.version}}
+          fi
+          echo VERSION=""$VERSION""
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "DRIVER_ID=$(jq .driver_id -r driver.json)" >> $GITHUB_ENV
           # Save to Github output to later use it in Create Release job
