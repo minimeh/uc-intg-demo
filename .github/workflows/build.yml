@@ -36,6 +36,8 @@ jobs:
         #Id needed for env output variable
         id: get-version-and-id
         run: |
+          echo "tag='"${GITHUB_REF#refs/tags/v}"'
+          echo "input='"${{github.event.inputs.version}}"'"
           # Check if triggered by version tag
           if [-n "${{github.event.inputs.version}}" ]; then
             # Extract version from git tag (remove 'v' prefix)
