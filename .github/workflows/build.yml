@@ -39,11 +39,14 @@ jobs:
           # Check if triggered by version tag
           if [-n "${{github.event.inputs.version}}" ]; then
             # Extract version from git tag (remove 'v' prefix)
+            echo "tag-triggered"
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             # Retrieve version from manual input
+            echo "manually-triggered"
             VERSION=${{github.event.inputs.version}}
           fi
+          echo VERSION=""$VERSION""
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "DRIVER_ID=$(jq .driver_id -r driver.json)" >> $GITHUB_ENV
           # Save to Github output to later use it in Create Release job
