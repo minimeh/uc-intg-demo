@@ -39,7 +39,8 @@ jobs:
           echo "tag=###"${GITHUB_REF#refs/tags/v}"###"
           echo "input=###"${{github.event.inputs.version}}"###"
           # Check if triggered by version tag
-          if [-n "${{github.event.inputs.version}}" ]; then
+          if [[ -z "${{github.event.inputs.version}}" ]]; then
+          # if [-n "${{github.event.inputs.version}}" ]; then
             # Extract version from git tag (remove 'v' prefix)
             echo "tag-triggered"
             VERSION=${GITHUB_REF#refs/tags/v}
