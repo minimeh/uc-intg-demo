@@ -185,4 +185,5 @@ jobs:
           bodyFile: release_notes.md
           generateReleaseNotes: false
           artifactErrorsFailBuild: true
+          allowUpdates: true
           tag: v${{needs.build.outputs.version}}
